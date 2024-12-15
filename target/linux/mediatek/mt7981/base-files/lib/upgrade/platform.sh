@@ -191,6 +191,7 @@ platform_do_upgrade() {
 	xiaomi,mi-router-wr30u-112m|\
 	xiaomi,mi-router-ax3000t|\
 	xiaomi,mi-router-ax3000t-an8855|\
+ 	one,r3-mini |\
 	*mt3000* |\
 	glinet,x3000-emmc |\
 	*xe3000* |\
@@ -244,6 +245,7 @@ platform_check_image() {
 	[ "$#" -gt 1 ] && return 1
 
 	case "$board" in
+ 	one,r3-mini |\
 	*mt3000* |\
 	glinet,x3000-emmc |\
 	*xe3000* |\
