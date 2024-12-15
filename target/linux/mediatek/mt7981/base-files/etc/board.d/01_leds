@@ -71,6 +71,11 @@ routerich,ax3000)
 	ucidef_set_led_default "green" "GREEN" "green:status" "0"
 	ucidef_set_led_default "blue" "BLUE" "blue:status" "1"
 	;;
+one,r3-mini)
+	ucidef_set_led_default "sys" "SYS" "blue:sys" "1"
+	ucidef_set_led_netdev "wlan2g" "WLAN2G" "blue:wlan2g" "ra0" "link tx rx"
+	ucidef_set_led_netdev "wlan5g" "WLAN5G" "blue:wlan5g" "rax0" "link tx rx"
+	;;
 esac
 
 board_config_flush
