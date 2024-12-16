@@ -810,6 +810,7 @@ define Device/routerich_ax3000
 endef
 TARGET_DEVICES += routerich_ax3000
 
+define Device/one_r3-mini
   DEVICE_VENDOR := ONE
   DEVICE_MODEL := R3-MINI
   DEVICE_DTS := mt7981-one-r3-mini
