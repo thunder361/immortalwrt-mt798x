@@ -552,3 +552,71 @@ define Device/zyxel_ex5700
     IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += zyxel_ex5700
+
+define Device/clx_s20p-dsa
+   DEVICE_VENDOR := CLX
+   DEVICE_MODEL := S20 PLUS-DSA
+   DEVICE_DTS := mt7986a-clx-s20p-dsa
+   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+   DEVICE_PACKAGES := $(MT7986_USB_PKGS)  $(MT7986_WWAN_PKGS) \
+	luci-app-samba4 luci-i18n-samba4-zh-cn \
+	luci-app-usb3disable luci-i18n-usb3disable-zh-cn \
+	f2fsck losetup mkf2fs kmod-fs-f2fs kmod-mmc kmod-nvme
+   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += clx_s20p-dsa
+
+define Device/clx_s20p-gsw
+   DEVICE_VENDOR := CLX
+   DEVICE_MODEL := S20 PLUS-GSW
+   DEVICE_DTS := mt7986a-clx-s20p-gsw
+   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+   DEVICE_PACKAGES := $(MT7986_USB_PKGS)  $(MT7986_WWAN_PKGS) \
+	luci-app-samba4 luci-i18n-samba4-zh-cn \
+	luci-app-usb3disable luci-i18n-usb3disable-zh-cn \
+	f2fsck losetup mkf2fs kmod-fs-f2fs kmod-mmc kmod-nvme
+   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += clx_s20p-gsw
+
+define Device/clx_s20m
+   DEVICE_VENDOR := CLX
+   DEVICE_MODEL := S20M
+   DEVICE_DTS := mt7986a-clx-s20m
+   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+   DEVICE_PACKAGES := $(MT7986_USB_PKGS)  $(MT7986_WWAN_PKGS) \
+	luci-app-samba4 luci-i18n-samba4-zh-cn \
+	luci-app-usb3disable luci-i18n-usb3disable-zh-cn \
+	f2fsck losetup mkf2fs kmod-fs-f2fs kmod-mmc kmod-nvme
+   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += clx_s20m
+
+define Device/clx_s20l
+   DEVICE_VENDOR := CLX
+   DEVICE_MODEL := S20L
+   DEVICE_DTS := mt7986a-clx-s20l
+   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+   DEVICE_PACKAGES := $(MT7986_USB_PKGS)  $(MT7986_WWAN_PKGS) \
+	luci-app-samba4 luci-i18n-samba4-zh-cn \
+	luci-app-usb3disable luci-i18n-usb3disable-zh-cn \
+	f2fsck losetup mkf2fs kmod-fs-f2fs kmod-mmc kmod-nvme
+   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += clx_s20l
+
+define Device/dazoo_x8pro
+  DEVICE_VENDOR := Dazoo
+  DEVICE_MODEL := X8-PRO
+  DEVICE_DTS := mt7986a-dazoo-x8pro
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := dazoo,x8pro
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += dazoo_x8pro
