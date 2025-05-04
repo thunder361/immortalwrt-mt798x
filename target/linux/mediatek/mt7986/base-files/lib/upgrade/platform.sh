@@ -150,6 +150,7 @@ platform_do_upgrade() {
 	netcore,n60 |\
 	ruijie,rg-x60-pro* |\
 	tplink,tl-xdr608* |\
+ 	dazoo,x8pro |\
 	zyxel,ex5700 |\
 	*snand*)
 		nand_do_upgrade "$1"
@@ -182,6 +183,7 @@ platform_check_image() {
 	bananapi,bpi-r3mini* |\
 	netcore,n60 |\
 	ruijie,rg-x60-pro* |\
+  	dazoo,x8pro |\
 	*snand* |\
 	glinet,gl-mt6000 |\
 	jdcloud,re-cp-03 |\
