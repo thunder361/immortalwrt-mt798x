@@ -740,6 +740,7 @@ setup_model()
 	ruijie,rg-x60-pro* |\
 	jdcloud,re-cp-03 |\
 	tplink,tl-xdr608* |\
+  	dazoo,x8pro |\
         clx,s20* |\
 	zyxel,ex5700 |\
 	*7986*)
