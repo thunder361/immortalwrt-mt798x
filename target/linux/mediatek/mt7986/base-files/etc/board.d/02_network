@@ -32,9 +32,28 @@ mediatek_setup_interfaces()
 	bananapi,bpi-r3mini*)
 		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		;;
+        clx,s20m |\
+	clx,s20l)
+		ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
+		ucidef_add_switch "switch0" \
+			"1:lan" "2:lan" "3:lan" "4:lan" "0:wan" "6t@eth0"
+		;;
+	clx,s20p-dsa)
+		ucidef_set_interfaces_lan_wan "lan0 lan1 lan2 lan3 lan4 lan5" eth1
+		;;
+	clx,s20p-gsw)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0" \
+			"0:lan" "1:lan" "2:lan" "3:lan" "4:lan" "5:lan" "6u@eth0"
+		;;
 	netcore,n60 |\
 	ruijie,rg-x60-pro*)
 		ucidef_set_interfaces_lan_wan "lan0 lan1 lan2 lan3" eth1
+		;;
+	dazoo,x8pro)
+		ucidef_set_interfaces_lan_wan "eth1" "eth0"
+		ucidef_add_switch "switch0" \
+			"0:lan" "1:lan" "2:lan" "6u@eth1"
 		;;
  	glinet,gl-mt6000)
  		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4 lan5" eth1
@@ -55,12 +74,42 @@ mediatek_setup_interfaces()
 	esac
 }
 
+mtk_facrory_write_mac()
+{
+	local part_name=$1
+	local offset=$2
+	local macaddr=$3 #aa:bb:cc:dd:ee:ff
+	local data=""
+
+	part="$(find_mtd_part $part_name)"
+	if [ -n "$part" ] && [ -n "$macaddr" ]; then
+		dd if="$part" of="/tmp/Factory.backup"
+		caldata_patch_mac "$macaddr" "0x4" "" "/tmp/Factory.backup"
+		mtd write "/tmp/Factory.backup" "$part_name"
+		rm -rf "/tmp/Factory.backup"
+	fi
+}
+
+mtk_factory_get_byte()
+{
+	local part_name=$1
+	local offset=$2
+	local len=$3
+
+	part=$(find_mtd_part $part_name)
+	if [ -n "$part" ]; then
+		hexdump -n $len -s $offset -e ''`expr ${len} - 1`'/1 "%02x-" "%02x"' $part
+	fi
+}
+
 mediatek_setup_macs()
 {
 	local board="$1"
 	local lan_mac=""
 	local wan_mac=""
 	local part_name="Factory"
+	local lan_mac_offset="0x2A"
+	local wan_mac_offset="0x24"
 	
 	case $board in
 	*netcore,n60*)
@@ -73,6 +122,21 @@ mediatek_setup_macs()
  		wan_mac=$label_mac
  		lan_mac=$(macaddr_add "$label_mac" 2)
  		;;
+	dazoo,x8pro)
+ 	 	lan_mac=$(mtd_get_mac_ascii Factory_info MAC)
+		wan_mac=$(macaddr_add $lan_mac 1)
+		label_mac=$lan_mac
+		local b0dat="$(l1dat if2dat ra0)"
+		local b1dat="$(l1dat if2dat rax0)"
+		if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
+			local b0mac="$(macaddr_add $label_mac 2)"
+			echo "MacAddress=$b0mac" >> ${b0dat}
+		fi
+		if [ -f ${b1dat} ] && ! grep -q "MacAddress=" ${b1dat}; then
+			local b1mac="$(macaddr_add $label_mac 3)"
+			echo "MacAddress=$b1mac" >> ${b1dat}
+		fi
+		;;
 	ruijie,rg-x60-pro*)
  		label_mac=$(mtd_get_mac_ascii product_info ethaddr)
  		wan_mac=$label_mac
@@ -88,18 +152,17 @@ mediatek_setup_macs()
 			echo "MacAddress=$b1mac" >> ${b1dat}
 		fi
  		;;
+	clx,s20* |\
 	jdcloud,re-cp-03)
 		lan_mac=$(mmc_get_mac_binary factory 0x2a)
 		wan_mac=$(mmc_get_mac_binary factory 0x24)
 		label_mac=$lan_mac
-		local b0dat="$(l1dat if2dat ra0)"
-		local b1dat="$(l1dat if2dat rax0)"
 		if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
-			local b0mac="$(mmc_get_mac_binary factory 0x04)"
+			local b0mac="$(macaddr_add $label_mac 2)"
 			echo "MacAddress=$b0mac" >> ${b0dat}
 		fi
 		if [ -f ${b1dat} ] && ! grep -q "MacAddress=" ${b1dat}; then
-			local b1mac="$(macaddr_setbit_la $b0mac)"
+			local b1mac="$(macaddr_add $label_mac 3)"
 			echo "MacAddress=$b1mac" >> ${b1dat}
 		fi
  		;;
