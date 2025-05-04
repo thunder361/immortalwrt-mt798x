@@ -141,7 +141,11 @@ void mtk_soc_mmd_write(int phyad, int devad, int regad, int val)
 static int rtl822x_init(struct mtk_eth *eth, int addr)
 {
 	u32 val;
-	
+	struct device_node *np;
+	struct device_node *np1;
+	np = of_find_compatible_node(NULL, NULL, "clx,s20p-dsa");
+	np1 = of_find_compatible_node(NULL, NULL, "clx,s20p-gsw");
+
 	val = mtk_mmd_read(eth, addr, 30, 0x75F3);
 	val &= ~(1 << 0);
 	mtk_mmd_write(eth, addr, 30, 0x75F3, val);
@@ -160,15 +164,23 @@ static int rtl822x_init(struct mtk_eth *eth, int addr)
 
     msleep(500);
 
-	// led0 at 10/100/1000/2.5G
+	if ((np || np1) && addr ==5 ) {
+			// led0 at 10/100/1000/2.5G
+			mtk_mmd_write(eth, addr, 31, 0xd032, 0x0027);
+			// led on time = 400ms, duty = 12.5%, freq = 60ms, Enable 10M LPI, modeA, act
+			//mtk_mmd_write(eth, addr, 31, 0xd040, 0x321f);
+			// all led enable, polar = low
+			//mtk_mmd_write(eth, addr, 31, 0xd044, 0xf8);
+
+	}
+	else {
 	mtk_mmd_write(eth, addr, 31, 0xd032, 0x0027);
-	// led on time = 400ms, duty = 12.5%, freq = 60ms, Enable 10M LPI, modeA, act
 	mtk_mmd_write(eth, addr, 31, 0xd040, 0x321f);
-	// all led enable, polar = low
 	mtk_mmd_write(eth, addr, 31, 0xd044, 0xf8);
+	}
 
 	msleep(500);
-    	
+
 	dev_info(eth->dev, "RTL822x init success!\n");
 
 	Rtl8226b_phy_init((HANDLE){eth, addr}, NULL, 1);
