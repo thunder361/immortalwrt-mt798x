@@ -35,7 +35,6 @@
  			partition@180000 {
  				label = "Factory";
  				reg = <0x180000 0x200000>;
- 				read-only;
  			};
 
  			partition@380000 {
@@ -46,7 +45,6 @@
  			partition@580000 {
  				label = "product_info";
  				reg = <0x580000 0x80000>;
- 				read-only;
  			};
 
  			partition@600000 {
