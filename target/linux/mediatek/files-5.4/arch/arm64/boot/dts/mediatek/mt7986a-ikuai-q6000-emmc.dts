@@ -189,8 +189,8 @@
 	status = "okay";
 };
 
-&pio {		
-	mmc0_pins_default: mmc0-pins-default {
+&pio {
+	mmc0_pins_default: mmc0-pins-50-to-61-default {
 		mux {
 			function = "flash";
 			groups = "emmc_51";
@@ -201,25 +201,25 @@
 			       "EMMC_DATA_6", "EMMC_DATA_7", "EMMC_CMD";
 			input-enable;
 			drive-strength = <MTK_DRIVE_4mA>;
-			mediatek,pull-up-adv = <1>;
+			mediatek,pull-up-adv = <1>;	/* pull-up 10K */
 		};
 		conf-clk {
 			pins = "EMMC_CK";
 			drive-strength = <MTK_DRIVE_6mA>;
-			mediatek,pull-down-adv = <2>;
+			mediatek,pull-down-adv = <2>;	/* pull-down 50K */
 		};
 		conf-ds {
 			pins = "EMMC_DSL";
-			mediatek,pull-down-adv = <2>;
+			mediatek,pull-down-adv = <2>;	/* pull-down 50K */
 		};
 		conf-rst {
 			pins = "EMMC_RSTB";
 			drive-strength = <MTK_DRIVE_4mA>;
-			mediatek,pull-up-adv = <1>;
+			mediatek,pull-up-adv = <1>;	/* pull-up 10K */
 		};
 	};
 
-	mmc0_pins_uhs: mmc0-uhs-pins {
+	mmc0_pins_uhs: mmc0-pins-50-to-61-uhs {
 		mux {
 			function = "flash";
 			groups = "emmc_51";
@@ -230,55 +230,21 @@
 			       "EMMC_DATA_6", "EMMC_DATA_7", "EMMC_CMD";
 			input-enable;
 			drive-strength = <MTK_DRIVE_4mA>;
-			mediatek,pull-up-adv = <1>;
+			mediatek,pull-up-adv = <1>;	/* pull-up 10K */
 		};
 		conf-clk {
 			pins = "EMMC_CK";
 			drive-strength = <MTK_DRIVE_6mA>;
-			mediatek,pull-down-adv = <2>;
+			mediatek,pull-down-adv = <2>;	/* pull-down 50K */
 		};
 		conf-ds {
 			pins = "EMMC_DSL";
-			mediatek,pull-down-adv = <2>;
+			mediatek,pull-down-adv = <2>;	/* pull-down 50K */
 		};
 		conf-rst {
 			pins = "EMMC_RSTB";
 			drive-strength = <MTK_DRIVE_4mA>;
-			mediatek,pull-up-adv = <1>;
-		};
-	};
-
-	wf_2g_5g_pins: wf_2g_5g-pins {
-		mux {
-			function = "wifi";
-			groups = "wf_2g", "wf_5g";
-		};
-		conf {
-			pins = "WF0_HB1", "WF0_HB2", "WF0_HB3", "WF0_HB4",
-			       "WF0_HB0", "WF0_HB0_B", "WF0_HB5", "WF0_HB6",
-			       "WF0_HB7", "WF0_HB8", "WF0_HB9", "WF0_HB10",
-			       "WF0_TOP_CLK", "WF0_TOP_DATA", "WF1_HB1",
-			       "WF1_HB2", "WF1_HB3", "WF1_HB4", "WF1_HB0",
-			       "WF1_HB5", "WF1_HB6", "WF1_HB7", "WF1_HB8",
-			       "WF1_TOP_CLK", "WF1_TOP_DATA";
-			drive-strength = <MTK_DRIVE_4mA>;
-		};
-	};
-
-	wf_dbdc_pins: wf_dbdc-pins {
-		mux {
-			function = "wifi";
-			groups = "wf_dbdc";
-		};
-		conf {
-			pins = "WF0_HB1", "WF0_HB2", "WF0_HB3", "WF0_HB4",
-			       "WF0_HB0", "WF0_HB0_B", "WF0_HB5", "WF0_HB6",
-			       "WF0_HB7", "WF0_HB8", "WF0_HB9", "WF0_HB10",
-			       "WF0_TOP_CLK", "WF0_TOP_DATA", "WF1_HB1",
-			       "WF1_HB2", "WF1_HB3", "WF1_HB4", "WF1_HB0",
-			       "WF1_HB5", "WF1_HB6", "WF1_HB7", "WF1_HB8",
-			       "WF1_TOP_CLK", "WF1_TOP_DATA";
-			drive-strength = <MTK_DRIVE_4mA>;
+			mediatek,pull-up-adv = <1>;	/* pull-up 10K */
 		};
 	};
 };
