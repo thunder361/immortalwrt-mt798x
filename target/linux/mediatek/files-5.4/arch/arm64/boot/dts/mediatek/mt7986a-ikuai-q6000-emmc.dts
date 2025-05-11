@@ -294,11 +294,9 @@
 };
 
 &wbsys {
-	status = "okay";
-	mediatek,mtd-eeprom = <&Factory 0x0000>;
-	pinctrl-names = "default", "dbdc";
+	pinctrl-names = "default";
 	pinctrl-0 = <&wf_2g_5g_pins>;
-	pinctrl-1 = <&wf_dbdc_pins>;
+	status = "okay";
 };
 
 &watchdog {
