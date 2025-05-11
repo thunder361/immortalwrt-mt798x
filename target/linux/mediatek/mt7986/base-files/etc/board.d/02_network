@@ -46,6 +46,11 @@ mediatek_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "3:lan" "4:lan" "5:lan" "6u@eth0"
 		;;
+	ikuai,q6000)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0"  \
+		        "4:lan:1" "3:lan:2" "2:lan:3" "6u@eth0"
+		;;
 	netcore,n60 |\
 	ruijie,rg-x60-pro*)
 		ucidef_set_interfaces_lan_wan "lan0 lan1 lan2 lan3" eth1
@@ -156,6 +161,20 @@ mediatek_setup_macs()
 	jdcloud,re-cp-03)
 		lan_mac=$(mmc_get_mac_binary factory 0x2a)
 		wan_mac=$(mmc_get_mac_binary factory 0x24)
+		label_mac=$lan_mac
+		if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
+			local b0mac="$(macaddr_add $label_mac 2)"
+			echo "MacAddress=$b0mac" >> ${b0dat}
+		fi
+		if [ -f ${b1dat} ] && ! grep -q "MacAddress=" ${b1dat}; then
+			local b1mac="$(macaddr_add $label_mac 3)"
+			echo "MacAddress=$b1mac" >> ${b1dat}
+		fi
+ 		;;
+	ikuai,q6000)
+                wifi_mac=$(mmc_get_mac_binary factory 0x0a)
+		lan_mac=$(mmc_get_mac_binary factory 0x04)
+		wan_mac="$(macaddr_add $lan_mac -1)"
 		label_mac=$lan_mac
 		if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
 			local b0mac="$(macaddr_add $label_mac 2)"
