@@ -16,6 +16,7 @@ caldata_validate() {
 
 do_extract_caldata() {
 	case $(board_name) in
+	ikuai,q6000 |\
 	glinet,gl-mt6000 |\
         clx,s20* |\
 	jdcloud,re-cp-03)
