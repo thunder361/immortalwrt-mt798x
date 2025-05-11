@@ -620,3 +620,15 @@ define Device/dazoo_x8pro
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += dazoo_x8pro
+
+define Device/ikuai_q6000-emmc
+   DEVICE_VENDOR := iKuai
+   DEVICE_MODEL := Q6000-eMMC
+   DEVICE_DTS := mt7986a-ikuai-q6000-emmc
+   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+   DEVICE_PACKAGES := $(MT7986_USB_PKGS)  $(MT7986_WWAN_PKGS) \
+	luci-app-samba4 luci-i18n-samba4-zh-cn \
+	f2fsck losetup mkf2fs kmod-fs-f2fs kmod-mmc
+   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += ikuai_q6000-emmc
