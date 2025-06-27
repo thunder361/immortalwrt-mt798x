@@ -204,7 +204,9 @@ platform_do_upgrade() {
 	*imou,lc-hx3001* |\
 	*jcg,q30* |\
 	nradio,wt9103 |\
+	bt,rb300 |\
 	cmcc,a10 |\
+	e-life,ap01-t |\
 	cmcc,rax3000m |\
 	cmcc,xr30 |\
 	h3c,nx30pro |\
@@ -219,6 +221,7 @@ platform_do_upgrade() {
 		;;
 	cmcc,rax3000m-emmc |\
 	cmcc,xr30-emmc |\
+	sn,r1 |\
 	*emmc*)
 		CI_KERNPART="kernel"
 		CI_ROOTPART="rootfs"
@@ -245,6 +248,7 @@ platform_check_image() {
 
 	case "$board" in
 	*mt3000* |\
+	sn,r1 |\
 	glinet,x3000-emmc |\
 	*xe3000* |\
 	*mt2500* |\
@@ -260,9 +264,11 @@ platform_check_image() {
 	*imou,lc-hx3001* |\
 	*jcg,q30* |\
 	cmcc,a10 |\
+	e-life,ap01-t |\
 	cmcc,rax3000m* |\
 	cmcc,xr30* |\
 	h3c,nx30pro |\
+	bt,rb300 |\
 	*honor,fur-602* |\
 	*konka,komi-a31* |\
 	*nokia,ea0326gmp* |\
