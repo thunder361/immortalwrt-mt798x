@@ -36,6 +36,17 @@ mediatek_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"1:lan" "2:lan" "3:lan" "0:wan" "5t@eth0"
 		;;
+	sn,r1)
+		ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
+		ucidef_add_switch "switch0" \
+			"1:lan" "2:lan" "3:lan" "4:lan:4" "0:wan" "6t@eth0"
+		;;
+	bt,rb300)
+		ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
+		ucidef_add_switch "switch0" \
+			"0:lan:4" "1:lan:1" "2:lan:2" "3:lan:3" "4:wan" "6t@eth0"
+		;;
+
 	*360,t7*)
 		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		ucidef_add_switch "switch0" \
@@ -83,6 +94,7 @@ mediatek_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"1:lan" "2:lan" "3:lan" "6u@eth0"
 		;;
+        e-life,ap01-t |\
 	*mt3000* |\
 	glinet,x3000-emmc |\
 	*xe3000* |\
@@ -170,6 +182,36 @@ mediatek_setup_macs()
 			local wifi_mac="$(mtd_get_mac_ascii config2 wifi2gmac)"
 			mtk_facrory_write_mac Factory 4 "$wifi_mac"
 		fi
+		;;
+    sn,r1)
+		lan_mac=$(mmc_get_mac_binary factory 0x2a)
+		wan_mac=$(mmc_get_mac_binary factory 0x24)
+		label_mac=$wan_mac
+        local b0dat="$(l1dat if2dat ra0)"
+        local b1dat="$(l1dat if2dat rax0)"
+        if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
+            local b0mac="$(macaddr_add $lan_mac 1)"
+            echo "MacAddress=$b0mac" >> ${b0dat}
+        fi
+        if [ -f ${b1dat} ] && ! grep -q "MacAddress=" ${b1dat}; then
+            local b1mac="$(macaddr_add $lan_mac 2)"
+            echo "MacAddress=$b1mac" >> ${b1dat}
+        fi
+		;;
+	bt,rb300)
+		lan_mac=$(mtd_get_mac_binary $part_name 0x2A)
+		wan_mac=$(mtd_get_mac_binary $part_name 0x24)
+		label_mac=$wan_mac
+
+		if [ "$(mtk_factory_get_byte Factory 4 2)" = "00-0c" ]; then
+			local wifi_mac="$(macaddr_add $wan_mac 1)"
+			mtk_facrory_write_mac Factory 4 "$wifi_mac"
+		fi
+		;;
+	e-life,ap01-t)
+		lan_mac=$(mtd_get_mac_binary Factory 0x24)
+		wan_mac=$(mtd_get_mac_binary Factory 0x04)
+		label_mac=$lan_mac
 		;;
 	xiaomi,mi-router-ax3000t* |\
 	xiaomi,mi-router-wr30u*)
