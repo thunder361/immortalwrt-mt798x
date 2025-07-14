@@ -12,7 +12,8 @@
 	compatible = "ikuai,q6000", "mediatek,mt7986a";
 	chosen {
 		bootargs = "console=ttyS0,115200n1 loglevel=8  \
-				earlycon=uart8250,mmio32,0x11002000";
+				earlycon=uart8250,mmio32,0x11002000 \
+				root=PARTLABEL=rootfs rootwait rootfstype=squashfs,f2fs";
 	};
 	
 	aliases {
