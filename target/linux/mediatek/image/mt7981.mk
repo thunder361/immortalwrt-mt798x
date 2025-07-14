@@ -245,6 +245,23 @@ define Device/cetron_ct3003
 endef
 TARGET_DEVICES += cetron_ct3003
 
+define Device/cudy_wr3000
+  DEVICE_VENDOR := Cudy
+  DEVICE_MODEL := WR3000 NAND
+  DEVICE_DTS := mt7981-cudy-wr3000-nand
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := cudy,wr3000
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 114688k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += cudy_wr3000
+
 define Device/mt7981-clt-r30b1
   DEVICE_VENDOR := MediaTek
   DEVICE_MODEL := CLT R30B1
