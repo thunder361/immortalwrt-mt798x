@@ -364,6 +364,18 @@ define Device/mediatek_mt7986-fpga-ubi
 endef
 TARGET_DEVICES += mediatek_mt7986-fpga-ubi
 
+define Device/acer_predator-w6d
+   DEVICE_VENDOR := ACER
+   DEVICE_MODEL := Predator-W6D
+   DEVICE_DTS := mt7986a-acer-predator-w6d
+   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+   SUPPORTED_DEVICES := acer,predator-w6d
+   DEVICE_PACKAGES := $(MT7986_USB_PKGS) blkid blockdev fdisk f2fsck mkf2fs losetup \
+	kmod-mmc kmod-nls-cp437 kmod-nls-iso8859-1
+   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += acer_predator-w6d
+
 define Device/xiaomi_redmi-router-ax6000
   DEVICE_VENDOR := Xiaomi
   DEVICE_MODEL := Redmi Router AX6000
