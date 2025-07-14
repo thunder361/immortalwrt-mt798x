@@ -1,0 +1,368 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+/dts-v1/;
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/leds/common.h>
+
+#include "mt7986a.dtsi"
+#include "mt7986a-pinctrl.dtsi"
+/ {
+	model = "ACER Predator W6D";
+	compatible = "acer,predator-w6d", "mediatek,mt7986a";
+
+	chosen {
+		bootargs = "console=ttyS0,115200n1 loglevel=8  \
+				earlycon=uart8250,mmio32,0x11002000 \
+				root=PARTLABEL=rootfs rootwait rootfstype=squashfs,f2fs";
+	};
+	
+	aliases {
+		led-boot = &led_status_blue;
+		led-failsafe = &led_status_blue;
+		led-running = &led_status_green;
+		led-upgrade = &led_status_red;
+	};
+
+	memory {
+		reg = <0 0x40000000 0 0x10000000>;
+	};
+
+	gsw: gsw@0 {
+		compatible = "mediatek,mt753x";
+		mediatek,ethsys = <&ethsys>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+    gpio-keys {
+ 		compatible = "gpio-keys";
+
+ 		button-reset {
+ 			label = "reset";
+ 			linux,code = <KEY_RESTART>;
+ 			gpios = <&pio 9 GPIO_ACTIVE_LOW>;
+ 		};
+
+ 		button-wps {
+ 			label = "wps";
+ 			linux,code = <KEY_WPS_BUTTON>;
+ 			gpios = <&pio 10 GPIO_ACTIVE_LOW>;
+ 		};
+ 	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		led_status_red: led-0 {
+			label = "red:status";
+			gpios = <&pio 1 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_status_green: led-1 {
+			label = "green:status";
+			gpios = <&pio 2 GPIO_ACTIVE_HIGH>;
+		};
+
+		led_status_blue: led-2 {
+			label = "blue:status";
+			gpios = <&pio 36 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-3 {
+			label = "red:w6d1";
+			gpios = <&pio 35 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-4 {
+			label = "green:w6d1";
+			gpios = <&pio 34 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-5 {
+			label = "blue:w6d1";
+			gpios = <&pio 33 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-6 {
+			label = "red:w6d2";
+			gpios = <&pio 38 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-7 {
+			label = "green:w6d2";
+			gpios = <&pio 37 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-8 {
+			label = "blue:w6d2";
+			gpios = <&pio 26 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-9 {
+			label = "red:w6d3";
+			gpios = <&pio 25 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-10 {
+			label = "green:w6d3";
+			gpios = <&pio 24 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-11 {
+			label = "blue:w6d3";
+			gpios = <&pio 23 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-12 {
+			label = "red:w6d4";
+			gpios = <&pio 28 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-13 {
+			label = "green:w6d4";
+			gpios = <&pio 27 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-14 {
+			label = "blue:w6d4";
+			gpios = <&pio 32 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-15 {
+			label = "red:w6d5";
+			gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-16 {
+			label = "green:w6d5";
+			gpios = <&pio 44 GPIO_ACTIVE_HIGH>;
+		};
+
+		led-17 {
+			label = "blue:w6d5";
+			gpios = <&pio 43 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	reg_1p8v: regulator-1p8v {
+		compatible = "regulator-fixed";
+		regulator-name = "fixed-1.8V";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+	reg_3p3v: regulator-3p3v {
+		compatible = "regulator-fixed";
+		regulator-name = "fixed-3.3V";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+};
+
+&eth {
+	status = "okay";
+
+	gmac0: mac@0 {
+		compatible = "mediatek,eth-mac";
+		reg = <0>;
+		phy-mode = "2500base-x";
+
+		fixed-link {
+			speed = <2500>;
+			full-duplex;
+			pause;
+		};
+	};
+
+	gmac1: mac@1 {
+		compatible = "mediatek,eth-mac";
+		reg = <1>;
+		phy-mode = "2500base-x";
+
+		ext-phy-reg = <6>;
+		ext-phy-reset-gpios = <&pio 6 0>;
+
+		fixed-link {
+			speed = <2500>;
+			full-duplex;
+			pause;
+		};
+	};
+
+	mdio: mdio-bus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		phy5: phy@5 {
+			compatible = "ethernet-phy-id67c9.de0a";
+			reg = <5>;
+		};
+
+		phy6: phy@6 {
+			compatible = "ethernet-phy-ieee802.3-c45";
+			reg = <6>;
+		};
+	};
+};
+
+&hnat {
+	mtketh-wan = "eth1";
+	mtketh-lan = "eth0";
+	mtketh-max-gmac = <2>;
+	ext-devices-prefix = "usb", "wwan";
+	status = "okay";
+};
+
+&gsw {
+	mediatek,mdio = <&mdio>;
+	mediatek,portmap = "lllll";
+	mediatek,mdio_master_pinmux = <0>;
+	reset-gpios = <&pio 5 0>;
+	interrupt-parent = <&pio>;
+	interrupts = <66 IRQ_TYPE_LEVEL_HIGH>;
+	status = "okay";
+
+	port5: port@5 {
+		compatible = "mediatek,mt753x-port";
+		reg = <5>;
+		phy-mode = "sgmii";
+
+		fixed-link {
+			speed = <2500>;
+			full-duplex;
+		};
+	};
+
+	port6: port@6 {
+		compatible = "mediatek,mt753x-port";
+		mediatek,ssc-on;
+		reg = <6>;
+		phy-mode = "sgmii";
+		fixed-link {
+			speed = <2500>;
+			full-duplex;
+		};
+	};
+};
+
+&xhci {
+	mediatek,u3p-dis-msk = <0x0>;
+	phys = <&u2port0 PHY_TYPE_USB2>,
+		   <&u3port0 PHY_TYPE_USB3>;
+	status = "okay";
+};
+
+&mmc0 {
+	bus-width = <8>;
+	cap-mmc-highspeed;
+	hs400-ds-delay = <0x14014>;
+	max-frequency = <200000000>;
+	mmc-hs200-1_8v;
+	mmc-hs400-1_8v;
+	no-sd;
+	no-sdio;
+	non-removable;
+	pinctrl-names = "default", "state_uhs";
+	pinctrl-0 = <&mmc0_pins_default>;
+	pinctrl-1 = <&mmc0_pins_uhs>;
+	vmmc-supply = <&reg_3p3v>;
+	vqmmc-supply = <&reg_1p8v>;
+	status = "okay";
+};
+
+&pio {
+	mmc0_pins_default: mmc0-pins-default {
+		mux {
+			function = "flash";
+			groups = "emmc_51";
+		};
+		conf-cmd-dat {
+			pins = "EMMC_DATA_0", "EMMC_DATA_1", "EMMC_DATA_2",
+			       "EMMC_DATA_3", "EMMC_DATA_4", "EMMC_DATA_5",
+			       "EMMC_DATA_6", "EMMC_DATA_7", "EMMC_CMD";
+			input-enable;
+			drive-strength = <MTK_DRIVE_4mA>;
+			mediatek,pull-up-adv = <1>;
+		};
+		conf-clk {
+			pins = "EMMC_CK";
+			drive-strength = <MTK_DRIVE_6mA>;
+			mediatek,pull-down-adv = <2>;
+		};
+		conf-ds {
+			pins = "EMMC_DSL";
+			mediatek,pull-down-adv = <2>;
+		};
+		conf-rst {
+			pins = "EMMC_RSTB";
+			drive-strength = <MTK_DRIVE_4mA>;
+			mediatek,pull-up-adv = <1>;
+		};
+	};
+
+	mmc0_pins_uhs: mmc0-uhs-pins {
+		mux {
+			function = "flash";
+			groups = "emmc_51";
+		};
+		conf-cmd-dat {
+			pins = "EMMC_DATA_0", "EMMC_DATA_1", "EMMC_DATA_2",
+			       "EMMC_DATA_3", "EMMC_DATA_4", "EMMC_DATA_5",
+			       "EMMC_DATA_6", "EMMC_DATA_7", "EMMC_CMD";
+			input-enable;
+			drive-strength = <MTK_DRIVE_4mA>;
+			mediatek,pull-up-adv = <1>;
+		};
+		conf-clk {
+			pins = "EMMC_CK";
+			drive-strength = <MTK_DRIVE_6mA>;
+			mediatek,pull-down-adv = <2>;
+		};
+		conf-ds {
+			pins = "EMMC_DSL";
+			mediatek,pull-down-adv = <2>;
+		};
+		conf-rst {
+			pins = "EMMC_RSTB";
+			drive-strength = <MTK_DRIVE_4mA>;
+			mediatek,pull-up-adv = <1>;
+		};
+	};
+
+	wf_2g_5g_pins: wf-2g-5g-pins {
+		mux {
+			function = "wifi";
+			groups = "wf_2g", "wf_5g";
+		};
+		conf {
+			pins = "WF0_HB1", "WF0_HB2", "WF0_HB3", "WF0_HB4",
+			       "WF0_HB0", "WF0_HB0_B", "WF0_HB5", "WF0_HB6",
+			       "WF0_HB7", "WF0_HB8", "WF0_HB9", "WF0_HB10",
+			       "WF0_TOP_CLK", "WF0_TOP_DATA", "WF1_HB1",
+			       "WF1_HB2", "WF1_HB3", "WF1_HB4", "WF1_HB0",
+			       "WF1_HB5", "WF1_HB6", "WF1_HB7", "WF1_HB8",
+			       "WF1_TOP_CLK", "WF1_TOP_DATA";
+			drive-strength = <MTK_DRIVE_4mA>;
+		};
+	};
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&watchdog {
+	status = "okay";
+};
+
+&wbsys {
+	pinctrl-names = "default";
+	pinctrl-0 = <&wf_2g_5g_pins>;
+	status = "okay";
+};
+
