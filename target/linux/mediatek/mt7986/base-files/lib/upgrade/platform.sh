@@ -156,6 +156,7 @@ platform_do_upgrade() {
 		nand_do_upgrade "$1"
 		;;
 	bananapi,bpi-r3mini-emmc |\
+	acer,predator-w6d |\
  	ikuai,q6000 |\
 	glinet,gl-mt6000 |\
 	jdcloud,re-cp-03 |\
@@ -188,6 +189,7 @@ platform_check_image() {
 	*snand* |\
 	glinet,gl-mt6000 |\
 	jdcloud,re-cp-03 |\
+	acer,predator-w6d |\
  	ikuai,q6000 |\
 	tplink,tl-xdr608* |\
         clx,s20* |\
