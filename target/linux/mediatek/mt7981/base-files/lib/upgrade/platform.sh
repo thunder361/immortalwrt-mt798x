@@ -203,6 +203,7 @@ platform_do_upgrade() {
 	*clt,r30b1* |\
 	*imou,lc-hx3001* |\
 	*jcg,q30* |\
+	cudy,wr3000 |\
 	nradio,wt9103 |\
 	bt,rb300 |\
 	cmcc,a10 |\
@@ -274,6 +275,7 @@ platform_check_image() {
 	*nokia,ea0326gmp* |\
 	*newland,nl-wr8103* |\
 	newland,nl-wr9103 |\
+	cudy,wr3000 |\
 	nradio,wt9103 |\
 	*snand* |\
 	*emmc* |\
