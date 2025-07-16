@@ -6,9 +6,9 @@
 	compatible = "cudy,wr3000", "mediatek,mt7981";
 
 	aliases {
-		led-boot = &status_led;
-		led-failsafe = &status_led;
-		led-upgrade = &status_led;
+		led-boot = &power_led;
+		led-failsafe = &power_led;
+		led-upgrade = &power_led;
 	};
 
 	chosen {
@@ -23,33 +23,33 @@
 	gpio-leds {
 		compatible = "gpio-leds";
 
-		status_led: led-0 {
-			label = "wr3000:status";
+		power_led: led-0 {
+			label = "led_power";
 			gpios = <&pio 10 GPIO_ACTIVE_LOW>;
 		};
 
 		led-1 {
-			label = "wr3000:interne";
+			label = "led_internet";
 			gpios = <&pio 11 GPIO_ACTIVE_LOW>;
 		};
 
 		led-2 {
-			label = "wr3000:wan";
-			gpios = <&pio 5 GPIO_ACTIVE_HIGH>;
+			label = "led_wan";
+			gpios = <&pio 5 GPIO_ACTIVE_LOW>;
 		};
 
 		led-3 {
-			label = "wr3000:lan";
-			gpios = <&pio 9 GPIO_ACTIVE_HIGH>;
+			label = "led_lan";
+			gpios = <&pio 9 GPIO_ACTIVE_LOW>;
 		};
 
 		led-4 {
-			label = "wr3000:wlan2g";
+			label = "led_wlan2g";
 			gpios = <&pio 6 GPIO_ACTIVE_LOW>;
 		};
 
 		led-5 {
-			label = "wr3000:wlan5g";
+			label = "led_wlan5g";
 			gpios = <&pio 7 GPIO_ACTIVE_LOW>;
 		};
 	};
