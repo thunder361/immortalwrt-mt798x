@@ -85,6 +85,15 @@ bt,rb300)
 	ucidef_set_led_netdev "wlan2g" "WLAN2G" "green:wlan2g" "ra0" "link"
 	ucidef_set_led_netdev "wlan5g" "WLAN5G" "green:wlan5g" "rax0" "link"
 	;;
+zero,001)
+	ucidef_set_led_netdev "wan" "wan" "green:wan" "wan" "link tx rx"
+	ucidef_set_led_netdev "lan1" "lan1" "green:lan1" "lan1" "link tx rx"
+	ucidef_set_led_netdev "lan2" "lan2" "green:lan2" "lan2" "link tx rx"
+	ucidef_set_led_netdev "lan3" "lan3" "green:lan3" "lan3" "link tx rx"
+	ucidef_set_led_netdev "lan4" "lan4" "green:lan4" "lan4" "link tx rx"
+	ucidef_set_led_default "green" "GREEN" "blue:status" "1"
+	ucidef_set_led_default "red" "RED" "red:status" "0"
+	;;
 esac
 
 board_config_flush
