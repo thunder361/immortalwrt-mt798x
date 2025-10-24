@@ -223,6 +223,7 @@ platform_do_upgrade() {
 	*snand*)
 		nand_do_upgrade "$1"
 		;;
+    zero,001 |\
 	cmcc,rax3000m-emmc |\
 	cmcc,xr30-emmc |\
 	sn,r1 |\
@@ -253,6 +254,7 @@ platform_check_image() {
 	case "$board" in
 	*mt3000* |\
 	sn,r1 |\
+    zero,001 |\
 	glinet,x3000-emmc |\
 	*xe3000* |\
 	*mt2500* |\
