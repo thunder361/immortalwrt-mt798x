@@ -77,6 +77,11 @@ mediatek_setup_interfaces()
  	tplink,tl-xdr6088)
  		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4 lan5" eth1
  		;;
+ 	tplink,tl-xdr6010)
+		ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
+		ucidef_add_switch "switch0" \
+			"1:lan:1" "2:lan:2" "3:lan:3" "0:wan" "6t@eth0"
+		;;
 	*)
 		ucidef_set_interfaces_lan_wan "lan0 lan1 lan2 lan3 lan4 lan5" eth1
 		;;
@@ -204,6 +209,7 @@ mediatek_setup_macs()
 			echo "MacAddress=$b1mac" >> ${b1dat}
 		fi
  		;;
+ 	tplink,tl-xdr6010|\
  	tplink,tl-xdr6086|\
  	tplink,tl-xdr6088)
 		lan_mac=$(mtd_get_mac_binary config 0x1c)
