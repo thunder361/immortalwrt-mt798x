@@ -61,6 +61,9 @@ mediatek_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "3:wan" "6t@eth0"
 		;;
+	zero,001)
+		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" wan
+		;;
 	*honor,fur-602*)
 		ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
 		ucidef_add_switch "switch0" \
@@ -379,6 +382,21 @@ mediatek_setup_macs()
 			local b1mac="$(macaddr_add $label_mac 3)"
 			echo "MacAddress=$b1mac" >> ${b1dat}
 		fi
+		;;
+    zero,001)
+		lan_mac=$(mmc_get_mac_binary factory 0x4)
+		wan_mac=$(macaddr_add $lan_mac -1)
+		label_mac=$lan_mac
+        local b0dat="$(l1dat if2dat ra0)"
+        local b1dat="$(l1dat if2dat rax0)"
+        if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
+            local b0mac="$(macaddr_add $lan_mac 1)"
+            echo "MacAddress=$b0mac" >> ${b0dat}
+        fi
+        if [ -f ${b1dat} ] && ! grep -q "MacAddress=" ${b1dat}; then
+            local b1mac="$(macaddr_add $lan_mac 2)"
+            echo "MacAddress=$b1mac" >> ${b1dat}
+        fi
 		;;
 	sdmc,nm3098 |\
 	*newland,nl-wr8103*)
