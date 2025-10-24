@@ -924,3 +924,16 @@ define Device/kjd_kj30-n
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += kjd_kj30-n
+
+define Device/zero_001
+  DEVICE_VENDOR := ZERO
+  DEVICE_MODEL := 001
+  DEVICE_DTS := mt7981-zero-001
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := zero,001
+  DEVICE_PACKAGES := mkf2fs e2fsprogs blkid blockdev losetup kmod-fs-ext4 \
+         kmod-mmc kmod-fs-f2fs kmod-fs-vfat kmod-nls-cp437 \
+         kmod-nls-iso8859-1 kmod-nvme
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += zero_001
