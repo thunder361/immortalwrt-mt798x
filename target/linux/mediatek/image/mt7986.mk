@@ -547,6 +547,16 @@ define Device/tplink_tl-xdr6088
 endef
 TARGET_DEVICES += tplink_tl-xdr6088
 
+define Device/tplink_tl-xdr6010
+  DEVICE_VENDOR := TP-Link
+  DEVICE_MODEL := TL-XDR6010
+  DEVICE_DTS := mt7986b-tplink-xdr6010
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := tplink,tl-xdr6010
+endef
+TARGET_DEVICES += tplink_tl-xdr6010
+
+
 define Device/zyxel_ex5700
     DEVICE_VENDOR := Zyxel
     DEVICE_MODEL := EX5700
