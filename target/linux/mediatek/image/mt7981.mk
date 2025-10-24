@@ -872,3 +872,55 @@ define Device/e-life_ap01-t
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += e-life_ap01-t
+
+define Device/mofi_6500v1
+  DEVICE_VENDOR := MOFI
+  DEVICE_MODEL := 6500v1
+  DEVICE_DTS := mt7981-mofi-6500v1
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := mofi,6500v1
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 116736k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+  DEVICE_PACKAGES := $(MT7981_USB_PKGS)
+endef
+TARGET_DEVICES += mofi_6500v1
+
+define Device/sdmc_nm3098
+  DEVICE_VENDOR := SDMC
+  DEVICE_MODEL := NM3098/NM3098B
+  DEVICE_DTS := mt7981-sdmc-nm3098
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := sdmc,nm3098
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 32768k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += sdmc_nm3098
+
+define Device/kjd_kj30-n
+  DEVICE_VENDOR := KJD
+  DEVICE_MODEL := KJ30-N
+  DEVICE_DTS := mt7981-kjd-kj30-n
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := kjd,kj30-n
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 116736k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += kjd_kj30-n
