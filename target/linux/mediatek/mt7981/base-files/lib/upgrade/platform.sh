@@ -202,8 +202,11 @@ platform_do_upgrade() {
 	*cetron,ct3003* |\
 	*clt,r30b1* |\
 	*imou,lc-hx3001* |\
+	sdmc,nm3098 |\
+	*kjd,kj30-n* |\
 	*jcg,q30* |\
 	cudy,wr3000 |\
+	mofi,6500v1 |\
 	nradio,wt9103 |\
 	bt,rb300 |\
 	cmcc,a10 |\
@@ -263,6 +266,8 @@ platform_check_image() {
 	*cetron,ct3003* |\
 	*clt,r30b1* |\
 	*imou,lc-hx3001* |\
+	sdmc,nm3098 |\
+	*kjd,kj30-n* |\
 	*jcg,q30* |\
 	cmcc,a10 |\
 	e-life,ap01-t |\
@@ -274,6 +279,7 @@ platform_check_image() {
 	*konka,komi-a31* |\
 	*nokia,ea0326gmp* |\
 	*newland,nl-wr8103* |\
+	mofi,6500v1 |\
 	newland,nl-wr9103 |\
 	cudy,wr3000 |\
 	nradio,wt9103 |\
