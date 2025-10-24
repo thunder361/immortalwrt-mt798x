@@ -75,6 +75,11 @@ mediatek_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "6u@eth0"
 		;;
+	mofi,6500v1)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0" \
+			"0:lan" "1:lan" "2:lan" "3:lan" "6u@eth0"
+		;;
 	*cmcc,a10*)
 		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		ucidef_add_switch "switch0" \
@@ -85,6 +90,11 @@ mediatek_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"1:lan" "2:lan" "3:lan" "0:wan" "6t@eth0"
 		;;
+	sdmc,nm3098)
+		ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
+		ucidef_add_switch "switch0" \
+			"0:lan" "1:lan" "2:wan" "6t@eth0"
+		;;		
 	abt,asr3000 |\
 	*cmcc,xr30* |\
 	*rax3000m*)
@@ -105,6 +115,7 @@ mediatek_setup_interfaces()
 	*mt2500*)
 		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		;;
+    *kjd,kj30-n* |\
 	*zr-3020*)
 		ucidef_set_interfaces_lan_wan "eth0" "eth1"
 		ucidef_add_switch "switch0" \
@@ -217,6 +228,11 @@ mediatek_setup_macs()
 		wan_mac=$(mtd_get_mac_binary Factory 0x04)
 		label_mac=$lan_mac
 		;;
+	*kjd,kj30-n*)
+		lan_mac=$(mtd_get_mac_binary Factory 0x2A)
+		wan_mac=$(mtd_get_mac_binary Factory 0x24)
+		local wifi_mac="$(mtd_get_mac_binary Factory 0x04)"
+		;;
 	xiaomi,mi-router-ax3000t* |\
 	xiaomi,mi-router-wr30u*)
 		wan_mac=$(mtd_get_mac_ascii Bdata ethaddr_wan)
@@ -275,6 +291,16 @@ mediatek_setup_macs()
 		;;
 	nokia,ea0326gmp)
 		lan_mac=$(mtd_get_mac_binary Factory 0x28)
+		wan_mac=$(macaddr_add $lan_mac 3)
+		label_mac=$wan_mac
+
+		if [ "$(mtk_factory_get_byte Factory 4 2)" = "00-0c" ]; then
+			local wifi_mac="$(macaddr_add $lan_mac 1)"
+			mtk_facrory_write_mac Factory 4 "$wifi_mac"
+		fi
+		;;
+	mofi,6500v1)
+		lan_mac=$(mtd_get_mac_binary Factory 0x4)
 		wan_mac=$(macaddr_add $lan_mac 3)
 		label_mac=$wan_mac
 
@@ -354,6 +380,7 @@ mediatek_setup_macs()
 			echo "MacAddress=$b1mac" >> ${b1dat}
 		fi
 		;;
+	sdmc,nm3098 |\
 	*newland,nl-wr8103*)
 		local wifi_mac=$(mtd_get_mac_binary Factory 0x4)
 		lan_mac=$(macaddr_add $wifi_mac -1)
