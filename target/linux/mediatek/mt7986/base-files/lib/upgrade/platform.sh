@@ -150,6 +150,7 @@ platform_do_upgrade() {
 	netcore,n60 |\
 	ruijie,rg-x60-pro* |\
 	tplink,tl-xdr608* |\
+	tplink,tl-xdr6010 |\
  	dazoo,x8pro |\
 	zyxel,ex5700 |\
 	*snand*)
@@ -192,6 +193,7 @@ platform_check_image() {
 	acer,predator-w6d |\
  	ikuai,q6000 |\
 	tplink,tl-xdr608* |\
+	tplink,tl-xdr6010 |\
         clx,s20* |\
 	zyxel,ex5700 |\
 	*emmc*)
